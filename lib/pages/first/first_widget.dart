@@ -92,7 +92,7 @@ class _FirstWidgetState extends State<FirstWidget> {
                           child: FFButtonWidget(
                             onPressed: () async {
                               context.pushNamed(
-                                'Auth',
+                                'Authentic',
                                 queryParameters: {
                                   'tabIndex': serializeParam(
                                     0,
@@ -143,7 +143,7 @@ class _FirstWidgetState extends State<FirstWidget> {
                           child: FFButtonWidget(
                             onPressed: () async {
                               context.pushNamed(
-                                'Auth',
+                                'Authentic',
                                 queryParameters: {
                                   'tabIndex': serializeParam(
                                     1,

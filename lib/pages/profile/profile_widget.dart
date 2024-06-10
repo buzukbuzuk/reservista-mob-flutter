@@ -1,3 +1,4 @@
+import '/auth/custom_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -585,7 +586,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     await authManager.signOut();
                     GoRouter.of(context).clearRedirectLocation();
 
-                    context.goNamedAuth('null', context.mounted);
+                    context.goNamedAuth('Authentic', context.mounted);
                   },
                   text: 'Log Out',
                   options: FFButtonOptions(

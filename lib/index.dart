@@ -1,6 +1,6 @@
 // Export pages
 export '/pages/first/first_widget.dart' show FirstWidget;
-export '/pages/auth/auth_widget.dart' show AuthWidget;
+export '/pages/authentic/authentic_widget.dart' show AuthenticWidget;
 export '/pages/activation/activation_widget.dart' show ActivationWidget;
 export '/pages/profile/profile_widget.dart' show ProfileWidget;
 export '/pages/home/home_widget.dart' show HomeWidget;
