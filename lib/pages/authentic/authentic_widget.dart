@@ -1,4 +1,3 @@
-import '/auth/custom_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -1066,15 +1065,9 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 16.0),
                                                     child: FFButtonWidget(
-                                                      onPressed: () async {
-                                                        GoRouter.of(context)
-                                                            .prepareAuthEvent();
-                                                        await authManager
-                                                            .signIn();
-
-                                                        context.goNamedAuth(
-                                                            'Home',
-                                                            context.mounted);
+                                                      onPressed: () {
+                                                        print(
+                                                            'Button pressed ...');
                                                       },
                                                       text: 'Login',
                                                       options: FFButtonOptions(
