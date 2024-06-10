@@ -73,11 +73,14 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
   }
 
   String _extractCookie(String cookies, String key) {
-    final cookieList = cookies.split(';');
+    final cookieList = cookies.split(','); // Split on comma to get individual cookies
     for (var cookie in cookieList) {
-      final cookieParts = cookie.split('=');
-      if (cookieParts.length == 2 && cookieParts[0].trim() == key) {
-        return cookieParts[1];
+      final cookieParts = cookie.split(';');
+      for (var part in cookieParts) {
+        final partParts = part.split('=');
+        if (partParts.length == 2 && partParts[0].trim() == key) {
+          return partParts[1].trim();
+        }
       }
     }
     return '';
