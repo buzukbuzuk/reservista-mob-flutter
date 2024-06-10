@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class HomeModel extends FlutterFlowModel<HomeWidget> {
+class HomeModel extends ChangeNotifier {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -18,18 +20,32 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // State field(s) for RatingBar widget.
   double? ratingBarValue1;
-  // State field(s) for RatingBar widget.
   double? ratingBarValue2;
-  // State field(s) for RatingBar widget.
   double? ratingBarValue3;
 
-  @override
-  void initState(BuildContext context) {}
+  List<dynamic> restaurants = [];
 
-  @override
+  void initState() {
+    fetchRestaurants();
+  }
+
   void dispose() {
     unfocusNode.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchRestaurants() async {
+    final url = 'http://185.146.1.28/api/restaurants/all?limit=5';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      restaurants = responseData['restaurants'];
+      notifyListeners(); // Notify listeners after updating the data
+    } else {
+      print('Failed to load restaurants: ${response.body}');
+    }
   }
 }

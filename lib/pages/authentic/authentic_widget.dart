@@ -46,8 +46,14 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
           ),
           1),
     )..addListener(() => setState(() {}));
-    _model.fullNameTextController ??= TextEditingController();
-    _model.fullNameFocusNode ??= FocusNode();
+    _model.nameTextController ??= TextEditingController();
+    _model.nameFocusNode ??= FocusNode();
+
+    _model.surnameTextController ??= TextEditingController();
+    _model.surnameFocusNode ??= FocusNode();
+
+    _model.phoneTextController ??= TextEditingController();
+    _model.phoneFocusNode ??= FocusNode();
 
     _model.emailAddressCreateTextController ??= TextEditingController();
     _model.emailAddressCreateFocusNode ??= FocusNode();
@@ -300,7 +306,7 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                       .fromSTEB(
                                                       0.0, 60.0, 0.0, 0.0),
                                                   child: Text(
-                                                    'Full Name',
+                                                    'Name',
                                                     style: FlutterFlowTheme.of(
                                                         context)
                                                         .bodyMedium
@@ -320,9 +326,9 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                     width: double.infinity,
                                                     child: TextFormField(
                                                       controller: _model
-                                                          .fullNameTextController,
+                                                          .nameTextController,
                                                       focusNode: _model
-                                                          .fullNameFocusNode,
+                                                          .nameFocusNode,
                                                       autofocus: false,
                                                       autofillHints: [
                                                         AutofillHints.name
@@ -331,7 +337,7 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                       decoration:
                                                       InputDecoration(
                                                         labelText:
-                                                        'Enter your full name',
+                                                        'Enter your name',
                                                         labelStyle:
                                                         FlutterFlowTheme.of(
                                                             context)
@@ -418,8 +424,146 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                       keyboardType:
                                                       TextInputType.name,
                                                       validator: _model
-                                                          .fullNameTextControllerValidator
+                                                          .nameTextControllerValidator
                                                           .asValidator(context),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    'Surname',
+                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                      fontFamily: 'Inter',
+                                                      letterSpacing: 0.0,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: TextFormField(
+                                                      controller: _model.surnameTextController,
+                                                      focusNode: _model.surnameFocusNode,
+                                                      autofocus: false,
+                                                      autofillHints: [AutofillHints.familyName],
+                                                      obscureText: false,
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Enter your surname',
+                                                        labelStyle: FlutterFlowTheme.of(context).labelLarge.override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: Color(0xFFBEC5D1),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).primary,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        errorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).error,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        focusedErrorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).error,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        contentPadding: EdgeInsets.all(24.0),
+                                                      ),
+                                                      style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                      keyboardType: TextInputType.name,
+                                                      validator: _model.surnameTextControllerValidator.asValidator(context),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    'Phone',
+                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                      fontFamily: 'Inter',
+                                                      letterSpacing: 0.0,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: TextFormField(
+                                                      controller: _model.phoneTextController,
+                                                      focusNode: _model.phoneFocusNode,
+                                                      autofocus: false,
+                                                      autofillHints: [AutofillHints.telephoneNumber],
+                                                      obscureText: false,
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Enter your phone number',
+                                                        labelStyle: FlutterFlowTheme.of(context).labelLarge.override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: Color(0xFFBEC5D1),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).primary,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        errorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).error,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        focusedErrorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: FlutterFlowTheme.of(context).error,
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(12.0),
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                        contentPadding: EdgeInsets.all(24.0),
+                                                      ),
+                                                      style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                      keyboardType: TextInputType.phone,
+                                                      validator: _model.phoneTextControllerValidator.asValidator(context),
                                                     ),
                                                   ),
                                                 ),
@@ -699,10 +843,14 @@ class _AuthenticWidgetState extends State<AuthenticWidget>
                                                         await _model.signUp(
                                                           context,
                                                           _model
-                                                              .fullNameTextController
+                                                              .nameTextController
                                                               .text,
-                                                          '', // Surname
-                                                          '', // Phone
+                                                          _model
+                                                              .surnameTextController
+                                                              .text, // Surname
+                                                          _model
+                                                              .phoneTextController
+                                                              .text, // Phone
                                                           _model
                                                               .emailAddressCreateTextController
                                                               .text,
