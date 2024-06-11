@@ -74,68 +74,72 @@ class AppStateNotifier extends ChangeNotifier {
 }
 
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
-      initialLocation: '/',
-      debugLogDiagnostics: true,
-      refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : FirstWidget(),
-      routes: [
-        FFRoute(
-          name: '_initialize',
-          path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : FirstWidget(),
+  initialLocation: '/',
+  debugLogDiagnostics: true,
+  refreshListenable: appStateNotifier,
+  errorBuilder: (context, state) =>
+  appStateNotifier.loggedIn ? NavBarPage() : FirstWidget(),
+  routes: [
+    FFRoute(
+      name: '_initialize',
+      path: '/',
+      builder: (context, _) =>
+      appStateNotifier.loggedIn ? NavBarPage() : FirstWidget(),
+    ),
+    FFRoute(
+      name: 'First',
+      path: '/first',
+      builder: (context, params) => FirstWidget(),
+    ),
+    FFRoute(
+      name: 'Authentic',
+      path: '/authentic',
+      builder: (context, params) => AuthenticWidget(
+        tabIndex: params.getParam(
+          'tabIndex',
+          ParamType.int,
         ),
-        FFRoute(
-          name: 'First',
-          path: '/first',
-          builder: (context, params) => FirstWidget(),
-        ),
-        FFRoute(
-          name: 'Authentic',
-          path: '/authentic',
-          builder: (context, params) => AuthenticWidget(
-            tabIndex: params.getParam(
-              'tabIndex',
-              ParamType.int,
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'Activation',
-          path: '/activation',
-          builder: (context, params) => ActivationWidget(),
-        ),
-        FFRoute(
-          name: 'Profile',
-          path: '/profile',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'Profile')
-              : ProfileWidget(),
-        ),
-        FFRoute(
-          name: 'Home',
-          path: '/home',
-          builder: (context, params) =>
-              params.isEmpty ? NavBarPage(initialPage: 'Home') : HomeWidget(),
-        ),
-        FFRoute(
-          name: 'Details',
-          path: '/details',
-          builder: (context, params) => DetailsWidget(),
-        ),
-        FFRoute(
-          name: 'Success',
-          path: '/success',
-          builder: (context, params) => SuccessWidget(),
-        ),
-        FFRoute(
-          name: 'Booking',
-          path: '/booking',
-          builder: (context, params) => BookingWidget(),
-        )
-      ].map((r) => r.toRoute(appStateNotifier)).toList(),
-    );
+      ),
+    ),
+    FFRoute(
+      name: 'Activation',
+      path: '/activation',
+      builder: (context, params) => ActivationWidget(),
+    ),
+    FFRoute(
+      name: 'Profile',
+      path: '/profile',
+      builder: (context, params) => params.isEmpty
+          ? NavBarPage(initialPage: 'Profile')
+          : ProfileWidget(),
+    ),
+    FFRoute(
+      name: 'Home',
+      path: '/home',
+      builder: (context, params) =>
+      params.isEmpty ? NavBarPage(initialPage: 'Home') : HomeWidget(),
+    ),
+    FFRoute(
+      name: 'Details',
+      path: '/details',
+      builder: (context, params) {
+        final restaurant = params.state.extra as Map<String, dynamic>;
+        return DetailsWidget(restaurant: restaurant);
+      },
+    ),
+    FFRoute(
+      name: 'Success',
+      path: '/success',
+      builder: (context, params) => SuccessWidget(),
+    ),
+    FFRoute(
+      name: 'Booking',
+      path: '/booking',
+      builder: (context, params) => BookingWidget(),
+    ),
+  ].map((r) => r.toRoute(appStateNotifier)).toList(),
+);
+
 
 extension NavParamExtensions on Map<String, String?> {
   Map<String, String> get withoutNulls => Map.fromEntries(

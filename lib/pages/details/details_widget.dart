@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'details_model.dart';
 import 'package:go_router/go_router.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -694,7 +693,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () {
-                    context.pushNamed('/booking', extra: {'restaurantId': restaurant['id']});
+                    context.pushNamed('Booking', extra: {'restaurantId': restaurant['id']});
                   },
                   text: 'Book a Table',
                   options: FFButtonOptions(
