@@ -37,7 +37,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> fetchRestaurants() async {
-    final url = 'http://185.146.1.28/api/restaurants/all?limit=5';
+    final url = 'http://185.146.1.28:8000/api/restaurants/all';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

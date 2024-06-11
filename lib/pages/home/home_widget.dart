@@ -39,16 +39,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.dispose();
   }
 
-  Future<void> fetchRestaurantDetails(String id) async {
-    final url = 'http://185.146.1.28/api/restaurants/view/$id';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final restaurantDetails = jsonDecode(response.body);
-      context.push('/details', extra: restaurantDetails);
-    } else {
-      print('Failed to load restaurant details: ${response.body}');
-    }
+  void navigateToDetails(Map<String, dynamic> restaurant) {
+    context.pushNamed('Details', extra: restaurant);
   }
 
   @override
@@ -127,211 +119,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                         letterSpacing: 0.0,
                       ),
                       cursorColor: FlutterFlowTheme.of(context).primary,
-                      validator: _model.textControllerValidator.asValidator(context),
+                      validator: _model.textControllerValidator?.asValidator(context),
                     ),
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Align(
-                        alignment: AlignmentDirectional(-1.0, 0.0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'Restaurants',
-                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
-                              color: Color(0xFF1F2937),
-                              fontSize: 16.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                    child: Text(
+                      'Explore Restaurants',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Inter',
+                        color: Color(0xFF1F2937),
+                        fontSize: 16.0,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w600,
                       ),
-                      Align(
-                        alignment: AlignmentDirectional(1.0, 0.0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Color(0xFFF6F6F6),
-                          borderRadius: 20.0,
-                          borderWidth: 1.0,
-                          buttonSize: 35.0,
-                          fillColor: Color(0xFFF6F6F6),
-                          icon: Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Color(0xFF6B7280),
-                            size: 16.0,
-                          ),
-                          onPressed: () {
-                            context.go('/allRestaurants'); // Navigate to all restaurants page
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Consumer<HomeModel>(
-                    builder: (context, model, child) {
-                      return Container(
-                        width: double.infinity,
-                        height: 290.0,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF6F6F6),
-                        ),
-                        child: ListView.builder(
-                          padding: EdgeInsets.fromLTRB(
-                            16.0,
-                            0,
-                            16.0,
-                            0,
-                          ),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: model.restaurants.length,
-                          itemBuilder: (context, index) {
-                            final restaurant = model.restaurants[index];
-                            return GestureDetector(
-                              onTap: () => fetchRestaurantDetails(restaurant['id']),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 16.0),
-                                child: Container(
-                                  width: 260.0,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 4.0,
-                                        color: Color(0x33000000),
-                                        offset: Offset(0.0, 2.0),
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 120.0,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFE9E9E9),
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              border: Border.all(color: Color(0xFFE9E9E9)),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(2.0),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(6.0),
-                                                child: Image.network(
-                                                  (restaurant['image_urls'] != null && restaurant['image_urls'].isNotEmpty)
-                                                      ? restaurant['image_urls'][0]
-                                                      : 'https://reservista-main-bucket.s3.amazonaws.com/gumball%27s%20living%20room.jpg',
-                                                  width: 120.0,
-                                                  height: 120.0,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(4.0, 8.0, 4.0, 4.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                restaurant['name'] ?? 'Restaurant',
-                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                  fontFamily: 'Inter',
-                                                  fontSize: 16.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Align(
-                                                    alignment: AlignmentDirectional(-1.0, 0.0),
-                                                    child: Icon(
-                                                      Icons.location_pin,
-                                                      color: Colors.black,
-                                                      size: 12.0,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    restaurant['address'] ?? 'Address',
-                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                      fontFamily: 'Inter',
-                                                      fontSize: 10.0,
-                                                      letterSpacing: 0.0,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ].divide(SizedBox(height: 4.0)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  Divider(
-                    height: 8.0,
-                    thickness: 1.0,
-                    color: FlutterFlowTheme.of(context).alternate,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Align(
-                        alignment: AlignmentDirectional(-1.0, 0.0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'Explore Restaurants',
-                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
-                              color: Color(0xFF1F2937),
-                              fontSize: 16.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Align(
-                          alignment: AlignmentDirectional(-1.0, -1.0),
-                          child: FlutterFlowIconButton(
-                            borderColor: Color(0xFFF6F6F6),
-                            borderRadius: 20.0,
-                            borderWidth: 1.0,
-                            buttonSize: 35.0,
-                            fillColor: Color(0xFFF6F6F6),
-                            icon: Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Color(0xFF6B7280),
-                              size: 16.0,
-                            ),
-                            onPressed: () {
-                              context.go('/allRestaurants'); // Navigate to all restaurants page
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   Consumer<HomeModel>(
                     builder: (context, model, child) {
@@ -342,6 +144,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                         itemCount: model.restaurants.length,
                         itemBuilder: (context, index) {
                           final restaurant = model.restaurants[index];
+                          final imageUrl = (restaurant['image_urls'] != null && restaurant['image_urls'].isNotEmpty)
+                              ? restaurant['image_urls'][0]
+                              : 'https://picsum.photos/seed/287/600';
+
                           return Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 5.0),
                             child: Material(
@@ -387,9 +193,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(10.0),
                                             child: Image.network(
-                                              (restaurant['image_urls'] != null && restaurant['image_urls'].isNotEmpty)
-                                                  ? restaurant['image_urls'][0]
-                                                  : 'https://reservista-main-bucket.s3.amazonaws.com/gumball%27s%20living%20room.jpg',
+                                              imageUrl,
                                               width: 120.0,
                                               height: 120.0,
                                               fit: BoxFit.cover,
@@ -446,7 +250,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               Align(
                                                 alignment: AlignmentDirectional(1.0, 1.0),
                                                 child: FFButtonWidget(
-                                                  onPressed: () => fetchRestaurantDetails(restaurant['id']),
+                                                  onPressed: () => navigateToDetails(restaurant),
                                                   text: 'Book',
                                                   options: FFButtonOptions(
                                                     width: 80.0,
