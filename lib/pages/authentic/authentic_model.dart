@@ -57,12 +57,9 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
   Future<void> saveCookies(http.Response response) async {
     final cookies = response.headers['set-cookie'];
     if (cookies != null) {
-      print(cookies); // For debugging
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final accessToken = _extractCookie(cookies, 'jwt');
       final refreshToken = _extractCookie(cookies, 'RT');
-      print("access token: $accessToken"); // For debugging
-      print("refresh token: $refreshToken"); // For debugging
       if (accessToken != "" && refreshToken != "") {
         await prefs.setString('jwt', accessToken);
         await prefs.setString('RT', refreshToken);
