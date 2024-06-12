@@ -1,5 +1,5 @@
+// authentic_model.dart
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -37,13 +37,13 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
   FocusNode? emailAddressCreateFocusNode;
   TextEditingController? emailAddressCreateTextController;
   String? Function(BuildContext, String?)?
-      emailAddressCreateTextControllerValidator;
+  emailAddressCreateTextControllerValidator;
   // State field(s) for password_Create widget.
   FocusNode? passwordCreateFocusNode;
   TextEditingController? passwordCreateTextController;
   late bool passwordCreateVisibility;
   String? Function(BuildContext, String?)?
-      passwordCreateTextControllerValidator;
+  passwordCreateTextControllerValidator;
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode;
   TextEditingController? emailAddressTextController;
@@ -181,7 +181,6 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
       ),
     );
   }
-
 
   @override
   void initState(BuildContext context) {

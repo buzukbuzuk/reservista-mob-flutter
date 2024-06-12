@@ -1,3 +1,4 @@
+// home_widget.dart
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -103,9 +104,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).error,
-                            width: 2.0,
-                          ),
+                              color: FlutterFlowTheme.of(context).error,
+                              width: 2.0),
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         contentPadding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),

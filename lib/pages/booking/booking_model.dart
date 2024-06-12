@@ -1,37 +1,50 @@
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_choice_chips.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'dart:math';
-import 'booking_widget.dart' show BookingWidget;
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class BookingModel extends FlutterFlowModel<BookingWidget> {
-  ///  State fields for stateful widgets in this page.
+class BookingModel extends ChangeNotifier {
+  /// State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for RatingBar widget.
-  double? ratingBarValue;
-  // State field(s) for ChoiceChips widget.
-  FormFieldController<List<String>>? choiceChipsValueController;
-  String? get choiceChipsValue =>
-      choiceChipsValueController?.value?.firstOrNull;
-  set choiceChipsValue(String? val) =>
-      choiceChipsValueController?.value = val != null ? [val] : [];
+  String? selectedTableId;
+  String reservationTime = '12:00 PM';
 
-  @override
-  void initState(BuildContext context) {}
+  List<dynamic> tables = [];
 
   @override
   void dispose() {
     unfocusNode.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchTables(String restaurantId) async {
+    final url = 'http://185.146.1.28:8000/api/reservations/all/restaurant/$restaurantId';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      tables = responseData['reservations'];
+      notifyListeners();
+    } else {
+      print('Failed to load tables: ${response.body}');
+    }
+  }
+
+  Future<bool> makeReservation(String tableId, String reservationTime) async {
+    final url = 'http://185.146.1.28:8000/api/reservations/make';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'table_id': tableId,
+        'reservation_time': reservationTime,
+      }),
+    );
+
+    return response.statusCode == 200;
   }
 }

@@ -1,3 +1,4 @@
+// details_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'details_model.dart';
@@ -18,8 +19,7 @@ class DetailsWidget extends StatefulWidget {
   State<DetailsWidget> createState() => _DetailsWidgetState();
 }
 
-class _DetailsWidgetState extends State<DetailsWidget>
-    with TickerProviderStateMixin {
+class _DetailsWidgetState extends State<DetailsWidget> with TickerProviderStateMixin {
   late DetailsModel _model;
   late Map<String, dynamic> restaurant;
 
@@ -98,17 +98,13 @@ class _DetailsWidgetState extends State<DetailsWidget>
                             BoxShadow(
                               blurRadius: 3.0,
                               color: Colors.transparent,
-                              offset: Offset(
-                                0.0,
-                                1.0,
-                              ),
+                              offset: Offset(0.0, 1.0),
                             )
                           ],
                           borderRadius: BorderRadius.circular(0.0),
                         ),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 4.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,29 +113,25 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        12.0, 0.0, 12.0, 0.0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                                     child: Material(
                                       color: Colors.transparent,
                                       elevation: 3.0,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(8.0),
+                                        borderRadius: BorderRadius.circular(8.0),
                                       ),
                                       child: Container(
                                         height: 280.0,
                                         decoration: BoxDecoration(
                                           color: Color(0xFFE9E9E9),
-                                          borderRadius:
-                                          BorderRadius.circular(8.0),
+                                          borderRadius: BorderRadius.circular(8.0),
                                           border: Border.all(
                                             color: Color(0xFFE9E9E9),
                                             width: 3.0,
                                           ),
                                         ),
                                         child: ClipRRect(
-                                          borderRadius:
-                                          BorderRadius.circular(8.0),
+                                          borderRadius: BorderRadius.circular(8.0),
                                           child: Image.network(
                                             restaurant['image_urls'] != null && restaurant['image_urls'].isNotEmpty
                                                 ? restaurant['image_urls'][0]
@@ -162,9 +154,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                   children: [
                                     Text(
                                       restaurant['name'] ?? 'Restaurant',
-                                      style: FlutterFlowTheme.of(context)
-                                          .headlineMedium
-                                          .override(
+                                      style: FlutterFlowTheme.of(context).headlineMedium.override(
                                         fontFamily: 'Inter',
                                         fontSize: 20.0,
                                         letterSpacing: 0.0,
@@ -175,8 +165,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Align(
-                                          alignment:
-                                          AlignmentDirectional(-1.0, 0.0),
+                                          alignment: AlignmentDirectional(-1.0, 0.0),
                                           child: Icon(
                                             Icons.location_pin,
                                             color: Colors.black,
@@ -185,9 +174,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                         ),
                                         Text(
                                           restaurant['address'] ?? 'Address',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
+                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
                                             fontFamily: 'Inter',
                                             fontSize: 10.0,
                                             letterSpacing: 0.0,
@@ -196,24 +183,20 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                       ],
                                     ),
                                     RatingBar.builder(
-                                      onRatingUpdate: (newValue) => setState(
-                                              () =>
-                                          _model.ratingBarValue = newValue),
+                                      onRatingUpdate: (newValue) => setState(() => _model.ratingBarValue = newValue),
                                       itemBuilder: (context, index) => Icon(
                                         Icons.star_rounded,
                                         color: Colors.black,
                                       ),
                                       direction: Axis.horizontal,
-                                      initialRating: _model.ratingBarValue ??=
-                                      3.0,
+                                      initialRating: _model.ratingBarValue ??= 3.0,
                                       itemCount: 5,
                                       itemSize: 12.0,
                                       glowColor: Colors.black,
                                     ),
                                     Divider(
                                       thickness: 1.0,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
+                                      color: FlutterFlowTheme.of(context).alternate,
                                     ),
                                   ].divide(SizedBox(height: 4.0)),
                                 ),
@@ -223,8 +206,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            12.0, 0.0, 12.0, 0.0),
+                        padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                         child: Container(
                           width: double.infinity,
                           height: 258.0,
@@ -242,14 +224,9 @@ class _DetailsWidgetState extends State<DetailsWidget>
                               Align(
                                 alignment: Alignment(0.0, 0),
                                 child: TabBar(
-                                  labelColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                                  unselectedLabelColor:
-                                  FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
+                                  labelColor: FlutterFlowTheme.of(context).primaryText,
+                                  unselectedLabelColor: FlutterFlowTheme.of(context).secondaryText,
+                                  labelStyle: FlutterFlowTheme.of(context).titleMedium.override(
                                     fontFamily: 'Inter',
                                     fontSize: 12.0,
                                     letterSpacing: 0.0,
@@ -257,8 +234,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                   ),
                                   unselectedLabelStyle: TextStyle(),
                                   indicatorColor: Colors.black,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 0.0, 0.0, 0.0),
+                                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                                   tabs: [
                                     Tab(
                                       text: 'ABOUT',
@@ -289,63 +265,40 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Padding(
-                                            padding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                12.0, 12.0, 12.0, 0.0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 0.0),
                                             child: Material(
                                               color: Colors.transparent,
                                               elevation: 3.0,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(5.0),
+                                                borderRadius: BorderRadius.circular(5.0),
                                               ),
                                               child: Container(
                                                 width: double.infinity,
                                                 height: 36.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                      context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
+                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                  borderRadius: BorderRadius.circular(5.0),
                                                 ),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                  MainAxisSize.max,
+                                                  mainAxisSize: MainAxisSize.max,
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          12.0,
-                                                          0.0,
-                                                          12.0,
-                                                          0.0),
+                                                      padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                                                       child: Icon(
-                                                        Icons
-                                                            .access_time_filled_outlined,
+                                                        Icons.access_time_filled_outlined,
                                                         color: Colors.black,
                                                         size: 20.0,
                                                       ),
                                                     ),
                                                     Align(
-                                                      alignment:
-                                                      AlignmentDirectional(
-                                                          0.0, 0.0),
+                                                      alignment: AlignmentDirectional(0.0, 0.0),
                                                       child: Text(
                                                         'Everyday 11:30 - 24:00',
-                                                        style: FlutterFlowTheme
-                                                            .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                          fontFamily:
-                                                          'Inter',
-                                                          color: Color(
-                                                              0xFF374151),
+                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                          fontFamily: 'Inter',
+                                                          color: Color(0xFF374151),
                                                           fontSize: 12.0,
-                                                          letterSpacing:
-                                                          0.0,
+                                                          letterSpacing: 0.0,
                                                         ),
                                                       ),
                                                     ),
@@ -355,72 +308,40 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                12.0, 12.0, 12.0, 12.0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
                                             child: Material(
                                               color: Colors.transparent,
                                               elevation: 3.0,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(5.0),
+                                                borderRadius: BorderRadius.circular(5.0),
                                               ),
                                               child: Container(
                                                 width: double.infinity,
                                                 height: 70.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                      context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
+                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                  borderRadius: BorderRadius.circular(5.0),
                                                 ),
                                                 child: Column(
-                                                  mainAxisSize:
-                                                  MainAxisSize.max,
+                                                  mainAxisSize: MainAxisSize.max,
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0.0,
-                                                          12.0,
-                                                          0.0,
-                                                          0.0),
+                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                        MainAxisSize.max,
+                                                        mainAxisSize: MainAxisSize.max,
                                                         children: [
                                                           Align(
-                                                            alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
+                                                            alignment: AlignmentDirectional(0.0, 0.0),
                                                             child: Padding(
-                                                              padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  12.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                              padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                                                               child: Text(
                                                                 'Restaurant Contact',
-                                                                style: FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                  fontFamily:
-                                                                  'Inter',
-                                                                  color: Color(
-                                                                      0xFF374151),
-                                                                  fontSize:
-                                                                  12.0,
-                                                                  letterSpacing:
-                                                                  0.0,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                  fontFamily: 'Inter',
+                                                                  color: Color(0xFF374151),
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
+                                                                  fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
                                                             ),
@@ -429,51 +350,27 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0.0,
-                                                          12.0,
-                                                          0.0,
-                                                          0.0),
+                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                        MainAxisSize.max,
+                                                        mainAxisSize: MainAxisSize.max,
                                                         children: [
                                                           Padding(
-                                                            padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                12.0,
-                                                                0.0,
-                                                                12.0,
-                                                                0.0),
+                                                            padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                                                             child: Icon(
-                                                              Icons
-                                                                  .phone_enabled_rounded,
-                                                              color:
-                                                              Colors.black,
+                                                              Icons.phone_enabled_rounded,
+                                                              color: Colors.black,
                                                               size: 20.0,
                                                             ),
                                                           ),
                                                           Align(
-                                                            alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
+                                                            alignment: AlignmentDirectional(0.0, 0.0),
                                                             child: Text(
                                                               restaurant['contact'] ?? '+0-78-3185-0509 ',
-                                                              style: FlutterFlowTheme
-                                                                  .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                fontFamily:
-                                                                'Inter',
-                                                                color: Color(
-                                                                    0xFF374151),
-                                                                fontSize:
-                                                                12.0,
-                                                                letterSpacing:
-                                                                0.0,
+                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                fontFamily: 'Inter',
+                                                                color: Color(0xFF374151),
+                                                                fontSize: 12.0,
+                                                                letterSpacing: 0.0,
                                                               ),
                                                             ),
                                                           ),
@@ -486,72 +383,40 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                12.0, 12.0, 12.0, 12.0),
+                                            padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
                                             child: Material(
                                               color: Colors.transparent,
                                               elevation: 3.0,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(5.0),
+                                                borderRadius: BorderRadius.circular(5.0),
                                               ),
                                               child: Container(
                                                 width: double.infinity,
                                                 height: 125.0,
                                                 decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                      context)
-                                                      .secondaryBackground,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      5.0),
+                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                  borderRadius: BorderRadius.circular(5.0),
                                                 ),
                                                 child: Column(
-                                                  mainAxisSize:
-                                                  MainAxisSize.max,
+                                                  mainAxisSize: MainAxisSize.max,
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0.0,
-                                                          12.0,
-                                                          0.0,
-                                                          0.0),
+                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                        MainAxisSize.max,
+                                                        mainAxisSize: MainAxisSize.max,
                                                         children: [
                                                           Align(
-                                                            alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
+                                                            alignment: AlignmentDirectional(0.0, 0.0),
                                                             child: Padding(
-                                                              padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                  12.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                              padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                                                               child: Text(
                                                                 'About',
-                                                                style: FlutterFlowTheme.of(
-                                                                    context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                  fontFamily:
-                                                                  'Inter',
-                                                                  color: Color(
-                                                                      0xFF374151),
-                                                                  fontSize:
-                                                                  12.0,
-                                                                  letterSpacing:
-                                                                  0.0,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                  fontFamily: 'Inter',
+                                                                  color: Color(0xFF374151),
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
+                                                                  fontWeight: FontWeight.bold,
                                                                 ),
                                                               ),
                                                             ),
@@ -560,52 +425,28 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                      EdgeInsetsDirectional
-                                                          .fromSTEB(
-                                                          0.0,
-                                                          12.0,
-                                                          0.0,
-                                                          0.0),
+                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                                                       child: Row(
-                                                        mainAxisSize:
-                                                        MainAxisSize.max,
+                                                        mainAxisSize: MainAxisSize.max,
                                                         children: [
                                                           Padding(
-                                                            padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                12.0,
-                                                                0.0,
-                                                                12.0,
-                                                                0.0),
+                                                            padding: EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
                                                             child: Icon(
-                                                              Icons
-                                                                  .description_rounded,
-                                                              color:
-                                                              Colors.black,
+                                                              Icons.description_rounded,
+                                                              color: Colors.black,
                                                               size: 20.0,
                                                             ),
                                                           ),
                                                           Expanded(
                                                             child: Align(
-                                                              alignment:
-                                                              AlignmentDirectional(
-                                                                  0.0, 0.0),
+                                                              alignment: AlignmentDirectional(0.0, 0.0),
                                                               child: Text(
                                                                 restaurant['description'] ?? 'No description available.',
-                                                                style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                  fontFamily:
-                                                                  'Inter',
-                                                                  color: Color(
-                                                                      0xFF374151),
-                                                                  fontSize:
-                                                                  12.0,
-                                                                  letterSpacing:
-                                                                  0.0,
+                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                  fontFamily: 'Inter',
+                                                                  color: Color(0xFF374151),
+                                                                  fontSize: 12.0,
+                                                                  letterSpacing: 0.0,
                                                                 ),
                                                               ),
                                                             ),
@@ -666,9 +507,7 @@ class _DetailsWidgetState extends State<DetailsWidget>
                                       children: [
                                         Text(
                                           'Reviews',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
+                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
                                             fontFamily: 'Inter',
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
@@ -693,16 +532,14 @@ class _DetailsWidgetState extends State<DetailsWidget>
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () {
-                    context.pushNamed('Booking', extra: {'restaurantId': restaurant['id']});
+                    context.pushNamed('Booking', extra: {'restaurant': restaurant});
                   },
                   text: 'Book a Table',
                   options: FFButtonOptions(
                     width: double.infinity,
                     height: 48.0,
-                    padding:
-                    EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
-                    iconPadding:
-                    EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: Colors.black,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                       fontFamily: 'Inter',
