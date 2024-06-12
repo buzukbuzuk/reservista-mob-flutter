@@ -1,20 +1,11 @@
-// authentic_model.dart
 import 'package:shared_preferences/shared_preferences.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
 import 'authentic_widget.dart' show AuthenticWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
-  ///  State fields for stateful widgets in this page.
+  /// State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // State field(s) for TabBar widget.
@@ -54,8 +45,26 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordTextControllerValidator;
 
-  Future<void> saveCookies(http.Response response) async {
-    final cookies = response.headers['set-cookie'];
+  Dio _dio = Dio();
+
+  AuthenticModel() {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          final jwt = prefs.getString('jwt') ?? '';
+          final rt = prefs.getString('RT') ?? '';
+          if (jwt.isNotEmpty && rt.isNotEmpty) {
+            options.headers['Cookie'] = 'jwt=$jwt; RT=$rt';
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+  }
+
+  Future<void> saveCookies(Response response) async {
+    final cookies = response.headers.map['set-cookie'];
     if (cookies != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final accessToken = _extractCookie(cookies, 'jwt');
@@ -69,9 +78,8 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
     }
   }
 
-  String _extractCookie(String cookies, String key) {
-    final cookieList = cookies.split(','); // Split on comma to get individual cookies
-    for (var cookie in cookieList) {
+  String _extractCookie(List<String> cookies, String key) {
+    for (var cookie in cookies) {
       final cookieParts = cookie.split(';');
       for (var part in cookieParts) {
         final partParts = part.split('=');
@@ -83,56 +91,24 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
     return '';
   }
 
-  Future<Map<String, String>> getCookies() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString('jwt') ?? '';
-    final refreshToken = prefs.getString('RT') ?? '';
-    return {
-      'jwt': accessToken,
-      'RT': refreshToken,
-    };
-  }
-
-  Future<http.Response> makeRequest(String url, String method, {Map<String, String>? headers, dynamic body}) async {
-    final cookieHeaders = await getCookies();
-    final mergedHeaders = {...?headers, ...cookieHeaders};
-
-    if (method == 'POST') {
-      return await http.post(
-        Uri.parse(url),
-        headers: mergedHeaders,
-        body: body,
-      );
-    } else if (method == 'GET') {
-      return await http.get(
-        Uri.parse(url),
-        headers: mergedHeaders,
-      );
-    } else {
-      throw UnsupportedError('Unsupported HTTP method');
-    }
-  }
-
   Future<void> signUp(BuildContext context, String name, String surname, String phone, String email, String password) async {
     final url = 'http://185.146.1.28:8000/api/auth/sign-up';
-    final response = await makeRequest(
+    final response = await _dio.post(
       url,
-      'POST',
-      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
-      body: jsonEncode({
+      data: {
         'name': name,
         'surname': surname,
         'phone': phone,
         'email': email,
         'password': password,
-      }),
+      },
     );
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       await saveCookies(response);
-      context.go('/activation'); // Use context.go for named routes with GoRouter
+      context.go('/activation');
     } else if (response.statusCode == 400) {
-      _showErrorPopup(context, jsonDecode(response.body)['error']);
+      _showErrorPopup(context, response.data['error']);
     } else if (response.statusCode == 500) {
       _showErrorPopup(context, 'Something went wrong..');
     }
@@ -140,27 +116,25 @@ class AuthenticModel extends FlutterFlowModel<AuthenticWidget> {
 
   Future<void> signIn(BuildContext context, String email, String password) async {
     final url = 'http://185.146.1.28:8000/api/auth/sign-in';
-    final response = await makeRequest(
+    final response = await _dio.post(
       url,
-      'POST',
-      headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
-      body: jsonEncode({
+      data: {
         'email': email,
         'password': password,
-      }),
+      },
     );
 
     if (response.statusCode == 200) {
       try {
         await saveCookies(response);
-        context.go('/home'); // Use context.go for named routes with GoRouter
+        context.go('/home');
       } catch (e) {
         _showErrorPopup(context, 'Error saving cookies: ${e.toString()}');
       }
     } else if (response.statusCode == 401) {
       _showErrorPopup(context, 'Unauthorized error');
     } else if (response.statusCode == 400) {
-      _showErrorPopup(context, jsonDecode(response.body)['error']);
+      _showErrorPopup(context, response.data['error']);
     } else if (response.statusCode == 500) {
       _showErrorPopup(context, 'Something went wrong...');
     }

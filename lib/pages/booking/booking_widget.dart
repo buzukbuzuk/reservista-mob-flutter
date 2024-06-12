@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import 'booking_model.dart';
 
 class BookingWidget extends StatefulWidget {
@@ -81,27 +83,98 @@ class _BookingWidgetState extends State<BookingWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              // Display restaurant info here if needed
               Text(
                 restaurant['name'] ?? 'Restaurant',
+                style: FlutterFlowTheme.of(context).headlineSmall,
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12, 12, 16, 0),
+                child: Wrap(
+                  spacing: 0,
+                  runSpacing: 0,
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  direction: Axis.horizontal,
+                  runAlignment: WrapAlignment.start,
+                  verticalDirection: VerticalDirection.down,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 32),
+                        child: FlutterFlowChoiceChips(
+                          options: [
+                            ChipData('12:00 PM'),
+                            ChipData('12:30 PM'),
+                            ChipData('1:00 PM'),
+                            ChipData('1:30 PM'),
+                            ChipData('2:00 PM'),
+                            ChipData('2:30 PM')
+                          ],
+                          onChanged: (val) => setState(() => _model.choiceChipsValue = val?.firstOrNull),
+                          selectedChipStyle: ChipStyle(
+                            backgroundColor: Colors.black,
+                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                              fontFamily: 'Readex Pro',
+                              letterSpacing: 0,
+                            ),
+                            iconColor: Colors.white,
+                            iconSize: 18,
+                            labelPadding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                            elevation: 2,
+                            borderRadius: BorderRadius.circular(27),
+                          ),
+                          unselectedChipStyle: ChipStyle(
+                            backgroundColor: FlutterFlowTheme.of(context).alternate,
+                            textStyle: FlutterFlowTheme.of(context).labelMedium.override(
+                              fontFamily: 'Readex Pro',
+                              letterSpacing: 0,
+                            ),
+                            iconColor: FlutterFlowTheme.of(context).primaryText,
+                            iconSize: 18,
+                            labelPadding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                            elevation: 0,
+                            borderRadius: BorderRadius.circular(27),
+                          ),
+                          chipSpacing: 12,
+                          rowSpacing: 24,
+                          multiselect: false,
+                          alignment: WrapAlignment.spaceBetween,
+                          controller: _model.choiceChipsValueController ??=
+                              FormFieldController<List<String>>(
+                                [],
+                              ),
+                          wrapped: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                'Choose Table',
                 style: FlutterFlowTheme.of(context).headlineSmall,
               ),
               Expanded(
                 child: Consumer<BookingModel>(
                   builder: (context, model, child) {
-                    return ListView.builder(
-                      padding: EdgeInsets.zero,
+                    return GridView.builder(
+                      padding: EdgeInsets.all(16.0),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 16.0,
+                        mainAxisSpacing: 16.0,
+                      ),
                       itemCount: model.tables.length,
                       itemBuilder: (context, index) {
                         final table = model.tables[index];
                         return GestureDetector(
-                          onTap: () {
-                            if (table['status'] == 'Available') {
-                              setState(() {
-                                _model.selectedTableId = table['id'];
-                              });
-                            }
-                          },
+                          onTap: table['status'] == 'Available' ? () {
+                            setState(() {
+                              _model.selectedTableId = table['id'];
+                            });
+                          } : null,
                           child: Container(
                             decoration: BoxDecoration(
                               color: table['status'] == 'Available'
@@ -111,10 +184,21 @@ class _BookingWidgetState extends State<BookingWidget> {
                                   : table['id'] == _model.selectedTableId
                                   ? Colors.black
                                   : Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                              ),
                             ),
-                            child: ListTile(
-                              title: Text('Table ${table['id']}'),
-                              subtitle: Text('Status: ${table['status']}'),
+                            child: Center(
+                              child: Text(
+                                'Table ${table['tableNumber']}',
+                                style: FlutterFlowTheme.of(context).titleMedium.override(
+                                  fontFamily: 'Inter',
+                                  color: table['id'] == _model.selectedTableId
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
                             ),
                           ),
                         );
@@ -130,7 +214,7 @@ class _BookingWidgetState extends State<BookingWidget> {
                     if (_model.selectedTableId != null) {
                       final result = await _model.makeReservation(
                         _model.selectedTableId!,
-                        _model.reservationTime,
+                        _model.choiceChipsValue ?? '12:00 PM',
                       );
                       if (result) {
                         context.goNamed('Success');
