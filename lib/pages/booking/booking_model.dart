@@ -16,6 +16,7 @@ class BookingModel extends ChangeNotifier {
   List<dynamic> tables = [];
   FormFieldController<List<String>>? choiceChipsValueController;
   String? choiceChipsValue;
+  Map<String, String> reservations = {};
 
   @override
   void dispose() {
@@ -37,8 +38,26 @@ class BookingModel extends ChangeNotifier {
           'tableNumber': table['TableNumber'],
         };
       }).toList();
+      tables.sort((a, b) => a['tableNumber'].compareTo(b['tableNumber']));
+      await fetchReservations(restaurantId);
     } else {
       print('Failed to load tables: ${response.data}');
+    }
+    notifyListeners();
+  }
+
+  Future<void> fetchReservations(String restaurantId) async {
+    final url = 'http://185.146.1.28:8000/api/reservations/all/restaurant/$restaurantId';
+    final cookies = await _getCookies();
+    final response = await Dio().get(url, options: Options(headers: {'Cookie': cookies}));
+
+    if (response.statusCode == 200 && response.data != null) {
+      final reservationsData = response.data['reservations'];
+      for (var reservation in reservationsData) {
+        reservations[reservation['table']['id']] = reservation['reservationTime'];
+      }
+    } else {
+      print('Failed to load reservations: ${response.data}');
     }
     notifyListeners();
   }
@@ -55,7 +74,17 @@ class BookingModel extends ChangeNotifier {
       }),
     );
 
-    return response.statusCode == 200;
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else if (response.statusCode == 400) {
+      throw Exception('Missing ID in request');
+    } else if (response.statusCode == 401) {
+      throw Exception('Unauthorized');
+    } else if (response.statusCode == 500) {
+      throw Exception('Internal server error');
+    } else {
+      return false;
+    }
   }
 
   Future<String> _getCookies() async {
